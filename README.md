@@ -1,4 +1,4 @@
-# SwordAndPan
+# Sword and Pan: Tower of Gluttony
 
 Sword and Pan é um jogo 3D, criado usando a Game Engine Unity.
 
