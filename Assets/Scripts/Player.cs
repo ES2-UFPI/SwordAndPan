@@ -1,63 +1,87 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // Velocidade de movimento do jogador
-    [SerializeField] private float movSpeed;
+    [Header("Player Settings")]
+    [SerializeField] private float movementSpeed = 5f; // Velocidade de movimento do jogador
 
-    // Referência ao script de entrada do jogador
-    [SerializeField] private GameInput gameInput;
+    [Header("Interaction Settings")]
+    [SerializeField] private GameInput gameInput; // Referência ao script de entrada do jogador
+    [SerializeField] private Transform interactorSource; // Posição de origem do raio de interação
+    [SerializeField] private float interactRange = 3f; // Alcance de interação do jogador
+    [SerializeField] private LayerMask interactableLayer; // Camada dos objetos interativos
 
     // Variável que indica se o jogador está andando
     private bool isWalking;
 
-    // Método chamado a cada quadro
+    private void Start()
+    {
+        // Inscreve o método de interação do jogador ao evento de interação do GameInput
+        gameInput.OnInteractAction += OnInteract;
+    }
+
+    private void OnInteract(object sender, EventArgs e)
+    {
+        Debug.Log("Player pressed Interact key.");
+
+        // Dispara um raio da posição do jogador para verificar objetos interativos dentro do alcance
+        Ray interactionRay = new Ray(interactorSource.position, interactorSource.forward);
+        if (Physics.Raycast(interactionRay, out RaycastHit hitInfo, interactRange, interactableLayer))
+        {
+            // Tenta obter o componente IInteractable do objeto atingido
+            IInteractable interactableObject = hitInfo.collider.GetComponent<IInteractable>();
+            if (interactableObject != null)
+            {
+                // Interage com o objeto atingido
+                interactableObject.Interact();
+            }
+        }
+    }
+
     private void Update()
+    {
+        HandleMovement();
+    }
+
+    private void HandleMovement()
     {
         // Obtém o vetor de entrada normalizado do script de entrada do jogador
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
 
         // Converte o vetor de entrada em um vetor de direção tridimensional
-        Vector3 movDir = new Vector3(inputVector.x, 0f, inputVector.y);
+        Vector3 movementDirection = new Vector3(inputVector.x, 0f, inputVector.y);
 
         // Calcula a distância de movimento com base na velocidade de movimento e no tempo desde o último quadro
-        float moveDistance = movSpeed * Time.deltaTime;
+        float moveDistance = movementSpeed * Time.deltaTime;
 
         // Altura e raio do jogador (usados para a detecção de colisão)
         float playerHeight = 2f;
         float playerRadius = .5f;
 
         // Verifica se o jogador pode se mover na direção desejada, usando um CapsuleCast para detecção de colisão
-        bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, movDir, moveDistance);
+        bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, movementDirection, moveDistance);
 
-        // Se o jogador não puder se mover na direção desejada...
+        // Se o jogador não puder se mover na direção desejada, tenta movimentar-se ao longo dos eixos X e Z separadamente
         if (!canMove)
         {
-            // Verifica se o jogador pode se mover apenas na direção X
-            Vector3 moveDirX = new Vector3(movDir.x, 0, 0).normalized;
-            canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
-
-            // Se o jogador puder se mover apenas na direção X, define a direção de movimento como X
+            Vector3 movementDirectionX = new Vector3(movementDirection.x, 0, 0).normalized;
+            canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, movementDirectionX, moveDistance);
             if (canMove)
             {
-                movDir = moveDirX;
+                movementDirection = movementDirectionX;
             }
             else
             {
-                // Se o jogador não puder se mover na direção X, verifica se pode se mover apenas na direção Z
-                Vector3 movDirZ = new Vector3(0, 0, movDir.z).normalized;
-                canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, movDirZ, moveDistance);
-
-                // Se o jogador puder se mover apenas na direção Z, define a direção de movimento como Z
+                Vector3 movementDirectionZ = new Vector3(0, 0, movementDirection.z).normalized;
+                canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, movementDirectionZ, moveDistance);
                 if (canMove)
                 {
-                    movDir = movDirZ;
+                    movementDirection = movementDirectionZ;
                 }
                 else
                 {
-                    // Não se move em direção nenhuma
+                    movementDirection = Vector3.zero; // Não se move em direção nenhuma
                 }
             }
         }
@@ -65,24 +89,16 @@ public class Player : MonoBehaviour
         // Se o jogador puder se mover, atualiza a posição do jogador na direção calculada
         if (canMove)
         {
-            transform.position += moveDistance * movDir;
+            transform.position += moveDistance * movementDirection;
         }
 
         // Verifica se o jogador está andando com base na direção de movimento
-        isWalking = movDir != Vector3.zero;
+        isWalking = movementDirection != Vector3.zero;
 
         // Velocidade de rotação do jogador
         float rotateSpeed = 10f;
 
         // Rotaciona o jogador na direção de movimento usando Slerp (interpolação esférica)
-        transform.forward = Vector3.Slerp(transform.forward, movDir, Time.deltaTime * rotateSpeed);
-    }
-
-    // Método público para verificar se o jogador está andando
-    public bool IsWalking()
-    {
-        return isWalking;
+        transform.forward = Vector3.Slerp(transform.forward, movementDirection, Time.deltaTime * rotateSpeed);
     }
 }
-//Detalhe a criação do MoveDirX e MoveDirZ tem de ser normalizadas porque ao apertar os botões diagonais
-//A velocidade do jogador fica mais lenta.
