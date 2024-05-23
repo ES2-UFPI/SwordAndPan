@@ -21,10 +21,15 @@ public class PortaScript : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        print("portaA");
         Transform TransP = GetComponentInParent<Transform>();
+        TransP = TransP.parent.transform;
+        print(TransP.name);
         foreach (Transform child in TransP){
+            if(child.name == "portaEsq" | child.name == "portaDir"){
             print("porta");
             child.gameObject.SetActive(false);
+            }
         }
     }
 }
