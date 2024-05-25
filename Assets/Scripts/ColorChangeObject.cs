@@ -32,7 +32,7 @@ public class ColorChangingObject : MonoBehaviour, IInteractable
     }
 
     // Implementação do método Interact da interface IInteractable
-    public void Interact()
+    public void OnInteract()
     {
         // Muda para a próxima cor na lista de cores
         currentColorIndex = (currentColorIndex + 1) % colors.Length;
