@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
 	private void Start()
 	{
 		gameInput.OnInteractAction += OnInteract;
+		gameInput.OnFireAction += OnFire;
 	}
 
 	private void Update()
@@ -77,6 +78,9 @@ public class Player : MonoBehaviour
 		}
 	}
 
+	private void OnFire(object sender, EventArgs e)
+	{
+	}
 	private void ApplyGravity()
 	{
 		if (characterController.isGrounded)

@@ -1,13 +1,12 @@
-using System; // Importa o namespace System para usar tipos básicos como EventHandler e EventArgs
-using System.Collections; // Importa o namespace System.Collections, necessário para coleções não genéricas (não usado diretamente aqui)
-using System.Collections.Generic; // Importa o namespace System.Collections.Generic para coleções genéricas (não usado diretamente aqui)
-using UnityEngine; // Importa o namespace UnityEngine para acessar as funcionalidades do Unity
-using UnityEngine.InputSystem; // Importa o namespace UnityEngine.InputSystem para usar o novo sistema de entrada do Unity
+using System;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameInput : MonoBehaviour
 {
-    // Evento que será disparado quando a ação de interagir for realizada
+    // Eventos que serão disparados quando as ações de interagir e atirar forem realizadas
     public event EventHandler OnInteractAction;
+    public event EventHandler OnFireAction;
 
     // Referência para as ações de entrada do jogador, definida pela classe PlayerInputActions gerada automaticamente
     private PlayerInputActions playerInputActions;
@@ -16,18 +15,26 @@ public class GameInput : MonoBehaviour
     private void Awake()
     {
         // Instancia as ações de entrada do jogador e as habilita
-        playerInputActions = new PlayerInputActions(); // Cria uma nova instância de PlayerInputActions
+        playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable(); // Habilita as ações de entrada definidas na seção Player
 
-        // Adiciona um handler para o evento "performed" da ação "Interact"
+        // Adiciona handlers para os eventos "performed" das ações "Interact" e "Attack"
         playerInputActions.Player.Interact.performed += Interact_performed;
+        playerInputActions.Player.Attack.performed += Fire_performed;
     }
 
     // Método chamado quando a ação de interagir é realizada
-    private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    private void Interact_performed(InputAction.CallbackContext obj)
     {
         // Dispara o evento OnInteractAction, se houver algum inscrito
         OnInteractAction?.Invoke(this, EventArgs.Empty);
+    }
+
+    // Método chamado quando a ação de atirar é realizada
+    private void Fire_performed(InputAction.CallbackContext obj)
+    {
+        // Dispara o evento OnFireAction, se houver algum inscrito
+        OnFireAction?.Invoke(this, EventArgs.Empty);
     }
 
     // Método para obter o vetor de movimento normalizado
