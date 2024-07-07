@@ -1,26 +1,42 @@
-name: Test project
+name: Unity Build
 
-on: [pull_request]
+on: 
+  push:
+  pull_request:
 
 jobs:
-  testAllModes:
-    name: Run Tests
+  build:
+    name: Build and Test
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - uses: actions/checkout@v2
+      - name: Cache Library
+        uses: actions/cache@v2
         with:
-          lfs: true
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
 
-      - uses: game-ci/unity-test-runner@v2
+      - name: Test
+        uses: game-ci/unity-test-runner@v2
+        with:
+          unityVersion: '2022.3.22f1' # Substitua pela versão do Unity que você está usando
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+      - name: Build project
+        uses: game-ci/unity-builder@v2
         with:
-          projectPath: path/to/your/project
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-          testMode: EditMode
-      - uses: actions/upload-artifact@v2
-        if: always()
+          unityVersion: '2022.3.22f1' # Substitua pela versão do Unity que você está usando
+          targetPlatform: StandaloneWindows64 # Substitua pela plataforma de destino desejada
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
         with:
-          name: Test results
-          path: artifacts
+          name: Game Build
+          path: build/
