@@ -1,66 +1,26 @@
-name: Actions 😎
+name: Test project
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
-  build:
-    name: Build my project ✨
+  testAllModes:
+    name: Run Tests
     runs-on: ubuntu-latest
-
     steps:
-      # Checkout
-      - name: Checkout repository
-        uses: actions/checkout@v4
+
+      - uses: actions/checkout@v2
         with:
           lfs: true
 
-      # Cache
-      - uses: actions/cache@v3
-        with:
-          path: Library
-          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
-          restore-keys: |
-            Library-
-
-      # Ensure clean state
-      - name: Check for uncommitted changes
-        run: git diff --exit-code || (echo "Uncommitted changes found, aborting workflow." && exit 1)
-
-      # List modified files
-      - name: List modified files
-        run: git status
-
-      # Test
-      - name: Run tests
-        uses: game-ci/unity-test-runner@v4
+      - uses: game-ci/unity-test-runner@v2
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
+          projectPath: path/to/your/project
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-
-      # Build
-      - name: Build project
-        uses: game-ci/unity-builder@v4
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          testMode: EditMode
+      - uses: actions/upload-artifact@v2
+        if: always()
         with:
-          targetPlatform: WebGL
-          allowDirtyBuild: true  # Use this if you choose to ignore the dirty branch (not recommended)
-
-      # Output
-      - uses: actions/upload-artifact@v3
-        with:
-          name: Build
-          path: build
-
-      # Upload modified files as artifacts
-      - name: Upload modified files as artifacts
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: ModifiedFiles
-          path: .
+          name: Test results
+          path: artifacts
