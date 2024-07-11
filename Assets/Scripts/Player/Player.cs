@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
 			IInteractable interactableObject = hitInfo.collider.GetComponent<IInteractable>();
 			if (interactableObject != null)
 			{
-				interactableObject.OnInteract(this);
+				interactableObject.OnInteract(this, e);
 			}
 		}
 	}

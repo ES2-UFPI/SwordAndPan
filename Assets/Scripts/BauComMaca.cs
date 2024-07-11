@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,8 +21,9 @@ public class BauComMaca : MonoBehaviour, IInteractable
 		
 		
 	}
-    public void OnInteract(Player player)
+    public void OnInteract(object sender, EventArgs e)
 	{
+        Player player = (Player)sender;
 		Debug.Log("Usuário interagiu com objeto Bau com Maçã");
 		player.inventario.interagirComDict("Maçã",1);
 		Debug.Log("Inventário do jogador tem " + player.inventario.mapaInventario["Maçã"]);

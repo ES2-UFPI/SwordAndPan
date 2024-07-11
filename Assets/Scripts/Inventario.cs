@@ -5,11 +5,7 @@ using UnityEngine;
 
 public class Inventario : MonoBehaviour
 {
-<<<<<<< Updated upstream:Assets/Scripts/Inventario.cs
-    Dictionary<String, int> mapaInventario;
-=======
     public Dictionary<String, int> mapaInventario = new Dictionary<string, int>();
->>>>>>> Stashed changes:Assets/Scripts/Player/Inventario.cs
     // Start is called before the first frame update
     void Start()
     {
@@ -29,8 +25,4 @@ public class Inventario : MonoBehaviour
         //quantia pode ser negativa
         mapaInventario[nome] = mapaInventario[nome] + quantia;
     }   
-<<<<<<< Updated upstream:Assets/Scripts/Inventario.cs
 }
-=======
-}
->>>>>>> Stashed changes:Assets/Scripts/Player/Inventario.cs

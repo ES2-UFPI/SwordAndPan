@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -19,7 +20,7 @@ public class PortaScript : MonoBehaviour, IInteractable
 
     }
 
-    public void Interact()
+    public void OnInteract()
     {
         print("portaA");
         Transform TransP = GetComponentInParent<Transform>();
@@ -32,4 +33,18 @@ public class PortaScript : MonoBehaviour, IInteractable
             }
         }
     }
+    public void OnInteract(object sender, EventArgs e)
+    {
+        print("portaA");
+        Transform TransP = GetComponentInParent<Transform>();
+        TransP = TransP.parent.transform;
+        print(TransP.name);
+        foreach (Transform child in TransP){
+            if(child.name == "portaEsq" | child.name == "portaDir"){
+            print("porta");
+            child.gameObject.SetActive(false);
+            }
+        }
+    }
+
 }

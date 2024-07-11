@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ColorChangingObject : MonoBehaviour, IInteractable
@@ -31,29 +32,17 @@ public class ColorChangingObject : MonoBehaviour, IInteractable
         }
     }
 
-<<<<<<< Updated upstream
     // Implementação do método Interact da interface IInteractable
-    public void Interact()
+    public void OnInteract()
     {
         // Muda para a próxima cor na lista de cores
         currentColorIndex = (currentColorIndex + 1) % colors.Length;
         SetColor(currentColorIndex);
     }
-=======
-	// Implementação do método Interact da interface IInteractable
-	public void OnInteract()
-	{
-		Debug.Log("Oi");
-		// Muda para a próxima cor na lista de cores
-		currentColorIndex = (currentColorIndex + 1) % colors.Length;
-		SetColor(currentColorIndex);
-	}
-	public void OnInteract(Player player)
-	{
-		Debug.Log("Oi");
-		// Muda para a próxima cor na lista de cores
-		currentColorIndex = (currentColorIndex + 1) % colors.Length;
-		SetColor(currentColorIndex);
-	}
->>>>>>> Stashed changes
+    public void OnInteract(object sender, EventArgs e)
+    {
+        // Muda para a próxima cor na lista de cores
+        currentColorIndex = (currentColorIndex + 1) % colors.Length;
+        SetColor(currentColorIndex);
+    }
 }

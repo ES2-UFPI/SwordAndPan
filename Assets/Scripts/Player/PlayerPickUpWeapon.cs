@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerPickUpWeapon : MonoBehaviour, IInteractable
@@ -11,7 +12,7 @@ public class PlayerPickUpWeapon : MonoBehaviour, IInteractable
         Debug.Log("Chegou aqui");
         PickUpWeapon();
     }
-    public void OnInteract(Player player)
+    public void OnInteract(object Player, EventArgs e)
     {
         Debug.Log("Chegou aqui");
         PickUpWeapon();
