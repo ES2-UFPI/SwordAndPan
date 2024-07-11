@@ -76,6 +76,12 @@ public class SimpleAI : MonoBehaviour
 		}
 	}
 
+	// A ideia é um sistema de pathfinding simples que funciona assim:
+	// 1 - Tenta andar diretamente até o player
+	// 2 - Se não puder, anda diretamente até a posição X do player
+	// 3 - Se não puder, anda diretamente até a posição Z do player
+	// 4 - Se não puder, anda diretamente
+	// Não está finalizado
 	private void Pathfinding()
 	{
 		Vector3 direction = (player.position - transform.position).normalized;
@@ -121,16 +127,7 @@ public class SimpleAI : MonoBehaviour
 
     private void MoveInDirection(Vector3 direction)
     {
-        characterController.Move(enemyVelocity * Time.deltaTime);
-
-		isWalking = direction != Vector3.zero;
-
-		float rotateSpeed = 10f;
-
-		if (direction != Vector3.zero)
-		{
-			transform.forward = Vector3.Slerp(transform.forward, direction, Time.deltaTime * rotateSpeed);
-		}
+        transform.position += direction * movementSpeed * Time.deltaTime;
     }
 
     public bool IsWalking()
