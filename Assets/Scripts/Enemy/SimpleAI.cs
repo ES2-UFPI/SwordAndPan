@@ -37,7 +37,7 @@ public class SimpleAI : MonoBehaviour
             float distance = Vector3.Distance(transform.position, player.position);
             if (distance > stoppingDistance)
             {
-                HandleMovement();
+                Pathfinding();
             }
 
             ApplyGravity();
@@ -46,7 +46,7 @@ public class SimpleAI : MonoBehaviour
 
     private void HandleMovement()
 	{
-		Vector3 movementDirection = new Vector3(player.position.x - transform.position.x, 0f, player.position.y - transform.position.y).normalized;
+		Vector3 movementDirection = new Vector3(player.position.x - transform.position.x, 0f, player.position.z - transform.position.z).normalized;
 
 		Vector3 horizontalVelocity = movementDirection * movementSpeed;
 		enemyVelocity.x = horizontalVelocity.x;
@@ -75,6 +75,63 @@ public class SimpleAI : MonoBehaviour
 			enemyVelocity.y += gravityMultiplier * gravity * Time.deltaTime;
 		}
 	}
+
+	private void Pathfinding()
+	{
+		Vector3 direction = (player.position - transform.position).normalized;
+
+        // Try to move directly towards the player
+        if (CanMoveInDirection(direction))
+        {
+            MoveInDirection(direction);
+        }
+        else
+        {
+            // Try to move towards the player's X position
+            Vector3 directionToPlayerX = new Vector3(player.position.x - transform.position.x, 0, 0).normalized;
+            if (CanMoveInDirection(directionToPlayerX))
+            {
+                MoveInDirection(directionToPlayerX);
+            }
+            else
+            {
+                // Try to move towards the player's Z position
+                Vector3 directionToPlayerZ = new Vector3(0, 0, player.position.z - transform.position.z).normalized;
+                if (CanMoveInDirection(directionToPlayerZ))
+                {
+                    MoveInDirection(directionToPlayerZ);
+                }
+            }
+        }
+	}
+
+	private bool CanMoveInDirection(Vector3 direction)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, direction, out hit, 1.0f))
+        {
+            // If the ray hits something, check if it's not the player
+            if (hit.collider.transform != player)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void MoveInDirection(Vector3 direction)
+    {
+        characterController.Move(enemyVelocity * Time.deltaTime);
+
+		isWalking = direction != Vector3.zero;
+
+		float rotateSpeed = 10f;
+
+		if (direction != Vector3.zero)
+		{
+			transform.forward = Vector3.Slerp(transform.forward, direction, Time.deltaTime * rotateSpeed);
+		}
+    }
 
     public bool IsWalking()
 	{
