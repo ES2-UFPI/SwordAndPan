@@ -39,7 +39,6 @@ public class ActivateColliderWeapon : MonoBehaviour
 
     protected void OnFire(object sender, EventArgs e)
     {
-        Debug.Log("OnFire triggered");
         weaponCollider.enabled = true;
         StartCoroutine(DeactivateColliderAfterDelay(2f));
     }
@@ -48,6 +47,5 @@ public class ActivateColliderWeapon : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         weaponCollider.enabled = false;
-        Debug.Log("Collider deactivated");
     }
 }

@@ -1,3 +1,4 @@
+// File: Assets/Scripts/PlayerAnimator.cs
 using System;
 using System.Collections;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class PlayerAnimator : MonoBehaviour
     private const string IS_ATTACKING = "IsAttacking"; // Nome do parâmetro de animação de ataque
     private const string IS_ROLLING = "IsRolling"; // Nome do parâmetro de animação de rolamento
     private Animator animator; // Referência ao componente Animator
+
 
     private void Awake()
     {
