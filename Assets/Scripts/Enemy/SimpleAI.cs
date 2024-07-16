@@ -20,9 +20,9 @@ public class SimpleAI : MonoBehaviour
 		characterController = GetComponent<CharacterController>();
 		
 		// Adjust the center of the CharacterController to be in the middle
-		Vector3 newCenter = characterController.center;
-		newCenter.y = characterController.height / 2;
-		characterController.center = newCenter;
+		// Vector3 newCenter = characterController.center;
+		// newCenter.y = characterController.height / 2;
+		// characterController.center = newCenter;
 	}
 
     private void Start()
@@ -34,13 +34,13 @@ public class SimpleAI : MonoBehaviour
     {
         if (player != null)
         {
+            ApplyGravity();
+
             float distance = Vector3.Distance(transform.position, player.position);
             if (distance > stoppingDistance)
             {
                 Pathfinding();
             }
-
-            ApplyGravity();
         }
     }
 
@@ -69,10 +69,12 @@ public class SimpleAI : MonoBehaviour
 		if (characterController.isGrounded)
 		{
 			enemyVelocity.y = -1.0f;
+            characterController.Move(enemyVelocity * Time.deltaTime);
 		}
 		else
 		{
 			enemyVelocity.y += gravityMultiplier * gravity * Time.deltaTime;
+            characterController.Move(enemyVelocity * Time.deltaTime);
 		}
 	}
 
@@ -114,10 +116,10 @@ public class SimpleAI : MonoBehaviour
 	private bool CanMoveInDirection(Vector3 direction)
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, direction, out hit, 1.0f))
+        if (Physics.Raycast(transform.position, direction, out hit, 3.5f))
         {
             // If the ray hits something, check if it's not the player
-            if (hit.collider.transform != player)
+            if (hit.collider.name != "Player")
             {
                 return false;
             }
