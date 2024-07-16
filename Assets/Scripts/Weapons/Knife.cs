@@ -7,6 +7,7 @@ public class Knife : Weapon
 {
 	[SerializeField] private ParticleSystem knifeParticle;
 	[SerializeField] private GameInput gameInput; // Referência à entrada do jogo
+	[SerializeField] private AudioSource attackAudioSource;
 
 	private void Start()
 	{
@@ -34,13 +35,25 @@ public class Knife : Weapon
 
 	private void OnFire(object sender, EventArgs e)
 	{
-		knifeParticle.Play();
-		Debug.Log("Ativou o efeito");
 		ActivateAttackParticle();
+		PlayAttackSound();
 	}
 
 	private void ActivateAttackParticle()
 	{
 		knifeParticle.Play();
+		Debug.Log("Ativou o efeito: Knife");
+	}
+
+	private void PlayAttackSound()
+	{
+		if (attackAudioSource != null)
+        {
+            attackAudioSource.Play();
+        }
+        else
+        {
+            Debug.LogError("Attack audio source not assigned!");
+        }
 	}
 }
