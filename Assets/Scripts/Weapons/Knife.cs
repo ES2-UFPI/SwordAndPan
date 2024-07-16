@@ -43,6 +43,7 @@ public class Knife : Weapon
 	{
 		knifeParticle.Play();
 		Debug.Log("Ativou o efeito: Knife");
+		
 	}
 
 	private void PlayAttackSound()
