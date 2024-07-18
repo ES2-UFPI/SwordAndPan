@@ -8,6 +8,7 @@ public class SimpleAI : MonoBehaviour
 	[SerializeField] private float gravity = -9.81f;
 	[SerializeField] private float gravityMultiplier = 2f;
 	[SerializeField] private float movementSpeed = 5f;
+    private Rigidbody rb;
 	private Vector3 enemyVelocity;
     private CharacterController characterController;
 
@@ -15,26 +16,17 @@ public class SimpleAI : MonoBehaviour
     public float stoppingDistance = 3f;
     private bool isWalking;
 
-    private void Awake()
-	{
-		characterController = GetComponent<CharacterController>();
-		
-		// Adjust the center of the CharacterController to be in the middle
-		// Vector3 newCenter = characterController.center;
-		// newCenter.y = characterController.height / 2;
-		// characterController.center = newCenter;
-	}
-
     private void Start()
     {
-
+        characterController = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
         if (player != null)
         {
-            ApplyGravity();
+            // ApplyGravity();
 
             float distance = Vector3.Distance(transform.position, player.position);
             if (distance > stoppingDistance)
@@ -43,26 +35,6 @@ public class SimpleAI : MonoBehaviour
             }
         }
     }
-
-    private void HandleMovement()
-	{
-		Vector3 movementDirection = new Vector3(player.position.x - transform.position.x, 0f, player.position.z - transform.position.z).normalized;
-
-		Vector3 horizontalVelocity = movementDirection * movementSpeed;
-		enemyVelocity.x = horizontalVelocity.x;
-		enemyVelocity.z = horizontalVelocity.z;
-
-		characterController.Move(enemyVelocity * Time.deltaTime);
-
-		isWalking = movementDirection != Vector3.zero;
-
-		float rotateSpeed = 10f;
-
-		if (movementDirection != Vector3.zero)
-		{
-			transform.forward = Vector3.Slerp(transform.forward, movementDirection, Time.deltaTime * rotateSpeed);
-		}
-	}
 
     private void ApplyGravity()
 	{
