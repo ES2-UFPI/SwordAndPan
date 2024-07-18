@@ -16,10 +16,18 @@ public class Player : MonoBehaviour
 	[SerializeField] private Transform interactorSource;
 	[SerializeField] private float interactRange = 3f;
 	[SerializeField] private LayerMask interactableLayer;
+<<<<<<< Updated upstream
 
 	[Header("Inventário")]
 	public Inventario inventario;
 	private bool isWalking;
+=======
+	
+	private bool isWalking;	
+	
+	[Header("Inventário")]
+	public Inventario inventario;
+>>>>>>> Stashed changes
 
 	private void Awake()
 	{
@@ -71,10 +79,20 @@ public class Player : MonoBehaviour
 		Ray interactionRay = new Ray(interactorSource.position, interactorSource.forward);
 		if (Physics.Raycast(interactionRay, out RaycastHit hitInfo, interactRange, interactableLayer))
 		{
+			Debug.Log("chegou até essa parte " + hitInfo.collider.name);
 			IInteractable interactableObject = hitInfo.collider.GetComponent<IInteractable>();
 			if (interactableObject != null)
 			{
+<<<<<<< Updated upstream
 				interactableObject.OnInteract(this, e);
+=======
+				Debug.Log("chegou até o final");
+				interactableObject.OnInteract(this, e);
+			}
+			if (interactableObject == null)
+			{
+				Debug.Log("o objeto é nulo");
+>>>>>>> Stashed changes
 			}
 		}
 	}

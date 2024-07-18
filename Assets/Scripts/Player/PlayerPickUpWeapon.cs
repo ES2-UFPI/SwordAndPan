@@ -12,11 +12,19 @@ public class PlayerPickUpWeapon : MonoBehaviour, IInteractable
         Debug.Log("Chegou aqui");
         PickUpWeapon();
     }
+<<<<<<< Updated upstream
     public void OnInteract(object Player, EventArgs e)
+=======
+    public void OnInteract(object sender, EventArgs e)
+>>>>>>> Stashed changes
     {
         Debug.Log("Chegou aqui");
         PickUpWeapon();
     }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     private void PickUpWeapon()
     {
         if (weaponPrefab != null)
