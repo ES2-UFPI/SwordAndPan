@@ -39,15 +39,31 @@ public class ActivateColliderWeapon : MonoBehaviour
 
     protected void OnFire(object sender, EventArgs e)
     {
-        Debug.Log("OnFire triggered");
-        weaponCollider.enabled = true;
-        StartCoroutine(DeactivateColliderAfterDelay(2f));
+        if (weaponCollider != null)
+        {
+            weaponCollider.enabled = true;
+            StartCoroutine(DeactivateColliderAfterDelay(2f));
+        }
+        else
+        {
+            Debug.LogWarning("Weapon Collider is null.");
+        }
     }
 
     private IEnumerator DeactivateColliderAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        weaponCollider.enabled = false;
-        Debug.Log("Collider deactivated");
+        if (weaponCollider != null)
+        {
+            weaponCollider.enabled = false;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (gameInput != null)
+        {
+            gameInput.OnFireAction -= OnFire; // Desinscreve do evento de ataque para evitar referências nulas
+        }
     }
 }
