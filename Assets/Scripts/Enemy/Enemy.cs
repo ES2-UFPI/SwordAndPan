@@ -34,7 +34,7 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    public void GetIsAlive(){
+    public bool GetIsAlive(){
         return isAlive;
     }
 }

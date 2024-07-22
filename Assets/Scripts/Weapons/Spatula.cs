@@ -1,12 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spatula : MonoBehaviour
+public class Spatula : Weapon
 {
-    [SerializeField] private ParticleSystem spatulaParticle;
-    [SerializeField] private GameInput gameInput; // Referência à entrada do jogo
-    [SerializeField] private AudioSource attackAudioSource;
+	[SerializeField] private ParticleSystem spatulaParticle;
+	[SerializeField] private GameInput gameInput; // Referência à entrada do jogo
+	[SerializeField] private AudioSource attackAudioSource;
 
 	private void Start()
 	{
@@ -35,7 +36,7 @@ public class Spatula : MonoBehaviour
 	private void OnFire(object sender, EventArgs e)
 	{
 		ActivateAttackParticle();
-        PlayAttackSound();
+		PlayAttackSound();
 	}
 
 	private void ActivateAttackParticle()
@@ -44,15 +45,23 @@ public class Spatula : MonoBehaviour
 		Debug.Log("Ativou o efeito: Spatula");
 	}
 
-    private void PlayAttackSound()
+	private void PlayAttackSound()
 	{
 		if (attackAudioSource != null)
-        {
-            attackAudioSource.Play();
-        }
-        else
-        {
-            Debug.LogError("Attack audio source not assigned!");
-        }
+		{
+			attackAudioSource.Play();
+		}
+		else
+		{
+			Debug.LogError("Attack audio source not assigned!");
+		}
+	}
+
+	private void OnDestroy()
+	{
+		if (gameInput != null)
+		{
+			gameInput.OnFireAction -= OnFire; // Desinscreve do evento de ataque para evitar referências nulas
+		}
 	}
 }
