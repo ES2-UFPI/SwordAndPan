@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -8,6 +9,7 @@ public class Player : MonoBehaviour
 	[SerializeField] private float gravity = -9.81f;
 	[SerializeField] private float gravityMultiplier = 2f;
 	[SerializeField] private float movementSpeed = 5f;
+	[SerializeField] private float rollSpeed = 2f; // Velocidade do rolamento
 	private Vector3 playerVelocity;
 	private CharacterController characterController;
 	[SerializeField] private GameInput gameInput;
@@ -18,12 +20,14 @@ public class Player : MonoBehaviour
 	[SerializeField] private LayerMask interactableLayer;
 
 	private bool isWalking;
+	private bool isRolling;
+	private bool isInvincible;
 
 	private void Awake()
 	{
 		characterController = GetComponent<CharacterController>();
-		
-		// Adjust the center of the CharacterController to be in the middle
+
+		// Ajusta o centro do CharacterController para estar no meio
 		Vector3 newCenter = characterController.center;
 		newCenter.y = characterController.height / 2;
 		characterController.center = newCenter;
@@ -32,12 +36,17 @@ public class Player : MonoBehaviour
 	private void Start()
 	{
 		gameInput.OnInteractAction += OnInteract;
+		gameInput.OnFireAction += OnFire;
+		gameInput.OnRollAction += OnRoll; // Subscreve ao evento de rolamento
 	}
 
 	private void Update()
 	{
-		HandleMovement();
-		ApplyGravity();
+		if (!isRolling)
+		{
+			HandleMovement();
+			ApplyGravity();
+		}
 	}
 
 	private void HandleMovement()
@@ -77,6 +86,39 @@ public class Player : MonoBehaviour
 		}
 	}
 
+	private void OnFire(object sender, EventArgs e)
+	{
+	}
+
+	private void OnRoll(object sender, EventArgs e)
+	{
+		if (!isRolling)
+		{
+			StartCoroutine(Roll());
+		}
+	}
+
+	private IEnumerator Roll()
+	{
+		isRolling = true; // Marca como rolando
+		isInvincible = true; // Marca como invencível
+		
+		Vector3 rollDirection = transform.forward; // Direção do rolamento
+		float rollDuration = 0f; // Duração do rolamento em segundos
+		float elapsedTime = 0f;
+
+		while (elapsedTime < rollDuration)
+		{
+			characterController.Move(rollSpeed * Time.deltaTime * rollDirection); // Movimenta o personagem na direção do rolamento
+			elapsedTime += Time.deltaTime;
+			yield return null;
+		}
+
+		isRolling = false; // Marca como não rolando
+		yield return new WaitForSeconds(0.2f); // Tempo de invencibilidade após o rolamento
+		isInvincible = false; // Marca como não invencível
+	}
+
 	private void ApplyGravity()
 	{
 		if (characterController.isGrounded)
@@ -88,9 +130,14 @@ public class Player : MonoBehaviour
 			playerVelocity.y += gravityMultiplier * gravity * Time.deltaTime;
 		}
 	}
-	
+
 	public bool IsWalking()
 	{
 		return isWalking;
+	}
+
+	public bool IsInvincible()
+	{
+		return isInvincible;
 	}
 }

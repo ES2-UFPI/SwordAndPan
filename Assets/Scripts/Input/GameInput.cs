@@ -1,45 +1,43 @@
-using System; // Importa o namespace System para usar tipos básicos como EventHandler e EventArgs
-using System.Collections; // Importa o namespace System.Collections, necessário para coleções não genéricas (não usado diretamente aqui)
-using System.Collections.Generic; // Importa o namespace System.Collections.Generic para coleções genéricas (não usado diretamente aqui)
-using UnityEngine; // Importa o namespace UnityEngine para acessar as funcionalidades do Unity
-using UnityEngine.InputSystem; // Importa o namespace UnityEngine.InputSystem para usar o novo sistema de entrada do Unity
+using System;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameInput : MonoBehaviour
 {
-    // Evento que será disparado quando a ação de interagir for realizada
-    public event EventHandler OnInteractAction;
+    public event EventHandler OnInteractAction; // Evento de interação
+    public event EventHandler OnFireAction; // Evento de ataque
+    public event EventHandler OnRollAction; // Evento de rolamento
 
-    // Referência para as ações de entrada do jogador, definida pela classe PlayerInputActions gerada automaticamente
     private PlayerInputActions playerInputActions;
 
-    // Método chamado quando o script é inicializado
     private void Awake()
     {
-        // Instancia as ações de entrada do jogador e as habilita
-        playerInputActions = new PlayerInputActions(); // Cria uma nova instância de PlayerInputActions
+        playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable(); // Habilita as ações de entrada definidas na seção Player
 
-        // Adiciona um handler para o evento "performed" da ação "Interact"
-        playerInputActions.Player.Interact.performed += Interact_performed;
+        playerInputActions.Player.Interact.performed += Interact_performed; // Liga a ação de interação
+        playerInputActions.Player.Attack.performed += Fire_performed; // Liga a ação de ataque
+        playerInputActions.Player.Roll.performed += Roll_performed; // Liga a ação de rolamento
     }
 
-    // Método chamado quando a ação de interagir é realizada
-    private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    private void Interact_performed(InputAction.CallbackContext obj)
     {
-        // Dispara o evento OnInteractAction, se houver algum inscrito
-        OnInteractAction?.Invoke(this, EventArgs.Empty);
+        OnInteractAction?.Invoke(this, EventArgs.Empty); // Dispara o evento de interação
     }
 
-    // Método para obter o vetor de movimento normalizado
+    private void Fire_performed(InputAction.CallbackContext obj)
+    {
+        OnFireAction?.Invoke(this, EventArgs.Empty); // Dispara o evento de ataque
+    }
+
+    private void Roll_performed(InputAction.CallbackContext obj)
+    {
+        OnRollAction?.Invoke(this, EventArgs.Empty); // Dispara o evento de rolamento
+    }
+
     public Vector2 GetMovementVectorNormalized()
     {
-        // Obtém o vetor de movimento do jogador a partir das ações de entrada
         Vector2 inputSystem = playerInputActions.Player.Move.ReadValue<Vector2>();
-
-        // Normaliza o vetor de movimento
-        inputSystem = inputSystem.normalized;
-
-        // Retorna o vetor de movimento normalizado
-        return inputSystem;
+        return inputSystem.normalized;
     }
 }
