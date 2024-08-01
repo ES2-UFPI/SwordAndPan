@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Torre - Felipe.unity
+    path: Assets/Scenes/Dungeon/DungeonRoom02.unity
     guid: 35aa0057b2cc0382280afa94207a06ed
   m_configObjects: {}
