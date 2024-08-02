@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerStatus : MonoBehaviour
 {
 	[SerializeField] private float playerHealth = 100f; // Valor inicial da saúde do jogador
-	[SerializeField] private float damagePlayer = 10f; // Dano causado pelo jogador
 
 	public bool IsDamaged = false;
 
@@ -13,7 +12,7 @@ public class PlayerStatus : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			TakeDamage(damagePlayer);
+			TakeDamage(10);
 		}
 		else
 		{

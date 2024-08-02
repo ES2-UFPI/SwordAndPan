@@ -42,7 +42,6 @@ public class Spatula : Weapon
 	private void ActivateAttackParticle()
 	{
 		spatulaParticle.Play();
-		Debug.Log("Ativou o efeito: Spatula");
 	}
 
 	private void PlayAttackSound()
