@@ -41,7 +41,6 @@ public class Knife : Weapon
         if (knifeParticle != null)
         {
             knifeParticle.Play();
-            Debug.Log("Ativou o efeito: Knife");
         }
         else
         {
