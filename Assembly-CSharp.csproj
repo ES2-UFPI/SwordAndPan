@@ -65,7 +65,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Inventory\ItemPickup.cs" />
+    <Compile Include="Assets\Scripts\Tests\Inventory\InventoryManagerTests.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerPickUpWeapon.cs" />
+    <Compile Include="Assets\Scripts\Inventory\ToggleButtonVisibility.cs" />
     <Compile Include="Assets\Art\Ambient Objects\BrokenVector\LowPolyDungeon\Demo Scenes\MouseCamLook.cs" />
     <Compile Include="Assets\Scripts\Inventory\ItemController.cs" />
     <Compile Include="Assets\Art\Ambient Objects\BrokenVector\LowPolyDungeon\Demo Scenes\ScreenshotMaker.cs" />
