@@ -2185,6 +2185,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Kiwi
       objectReference: {fileID: 0}
+    - target: {fileID: 2951262176976181772, guid: 3ccd52f973db4ac4993e25283102c8bd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5930146892254249069, guid: 3ccd52f973db4ac4993e25283102c8bd, type: 3}
       propertyPath: camera
       value: 
@@ -2231,17 +2235,74 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7961777362118698334, guid: 3ccd52f973db4ac4993e25283102c8bd, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7961777362118698334, guid: 3ccd52f973db4ac4993e25283102c8bd, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ccd52f973db4ac4993e25283102c8bd, type: 3}
+--- !u!1001 &4722295868568537773
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 602914227691421281, guid: 6321c1ef18c909c48b02252c10ac239f, type: 3}
+      propertyPath: m_Name
+      value: NPC_Female
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829536766460484749, guid: 6321c1ef18c909c48b02252c10ac239f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829536766460484749, guid: 6321c1ef18c909c48b02252c10ac239f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829536766460484749, guid: 6321c1ef18c909c48b02252c10ac239f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829536766460484749, guid: 6321c1ef18c909c48b02252c10ac239f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829536766460484749, guid: 6321c1ef18c909c48b02252c10ac239f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829536766460484749, guid: 6321c1ef18c909c48b02252c10ac239f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829536766460484749, guid: 6321c1ef18c909c48b02252c10ac239f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829536766460484749, guid: 6321c1ef18c909c48b02252c10ac239f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829536766460484749, guid: 6321c1ef18c909c48b02252c10ac239f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829536766460484749, guid: 6321c1ef18c909c48b02252c10ac239f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6321c1ef18c909c48b02252c10ac239f, type: 3}
 --- !u!1001 &5466363735670866454
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2353,15 +2414,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 872845293634432582, guid: ca24483e3b6e3934a8568e5fbf92e558, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 872845293634432582, guid: ca24483e3b6e3934a8568e5fbf92e558, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1314034407817973403, guid: ca24483e3b6e3934a8568e5fbf92e558, type: 3}
       propertyPath: m_Name
       value: Eggy
+      objectReference: {fileID: 0}
+    - target: {fileID: 1314034407817973403, guid: ca24483e3b6e3934a8568e5fbf92e558, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3471447748699802485, guid: ca24483e3b6e3934a8568e5fbf92e558, type: 3}
       propertyPath: camera
@@ -2443,3 +2508,4 @@ SceneRoots:
   - {fileID: 2784547036745275943}
   - {fileID: 541185230}
   - {fileID: 7370159990923832965}
+  - {fileID: 4722295868568537773}
