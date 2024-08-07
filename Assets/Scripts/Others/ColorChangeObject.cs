@@ -39,4 +39,5 @@ public class ColorChangingObject : MonoBehaviour, IInteractable
 		currentColorIndex = (currentColorIndex + 1) % colors.Length;
 		SetColor(currentColorIndex);
 	}
+	
 }

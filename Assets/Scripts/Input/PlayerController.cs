@@ -27,6 +27,12 @@ public class PlayerController : MonoBehaviour
 		_input = context.ReadValue<Vector2>();
 		_input = _input.normalized;
 		
-		_direction = new Vector3(_input.x, 0, _input.y);
+		_direction = Direcao(_input);
+	}
+
+	private Vector3 Direcao(Vector2 Input)
+	{
+		Vector3 retornodirecao = new Vector3(Input.x, 0, Input.y);
+		return retornodirecao;
 	}
 }
