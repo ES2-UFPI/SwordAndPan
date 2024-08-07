@@ -44,7 +44,6 @@ public class NPCBehavior : MonoBehaviour
     {
         // Simulate ordering a dish
         Debug.Log("Ordering dish...");
-        Invoke("Disappear", 5f); // Simulate a 5-second delay for ordering and delivery
     }
 
     void Disappear()
