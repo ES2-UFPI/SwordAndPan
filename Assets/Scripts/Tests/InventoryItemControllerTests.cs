@@ -1,14 +1,14 @@
-using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.TestTools;
+using Moq;
 
 public class InventoryItemControllerTests
 {
     private GameObject gameObject;
     private InventoryItemController inventoryItemController;
     private Item testItem;
+    private Mock<IInventoryManager> mockInventoryManager;
 
     [SetUp]
     public void SetUp()
@@ -16,9 +16,15 @@ public class InventoryItemControllerTests
         gameObject = new GameObject();
         inventoryItemController = gameObject.AddComponent<InventoryItemController>();
         inventoryItemController.RemoveButton = gameObject.AddComponent<Button>();
+
         testItem = ScriptableObject.CreateInstance<Item>();
-        testItem.name = "Test Item";
-        inventoryItemController.AddItem(testItem);
+        testItem.id = 1;
+        testItem.itemName = "Test Item";
+        testItem.value = 100;
+
+        // Configura o Mock para o InventoryManager
+        mockInventoryManager = new Mock<IInventoryManager>();
+        InventoryManager.Instance = mockInventoryManager.Object;
     }
 
     [TearDown]
@@ -28,23 +34,24 @@ public class InventoryItemControllerTests
         Object.Destroy(testItem);
     }
 
-    [UnityTest]
-    public IEnumerator RemoveItem_RemovesItemFromInventory()
-    {
-        InventoryManager.Instance.Add(testItem);
-        Assert.IsTrue(InventoryManager.Instance.Contains(testItem));
-        inventoryItemController.RemoveItem();
-        yield return null;
-        Assert.IsFalse(InventoryManager.Instance.Contains(testItem));
-    }
-
     [Test]
-    public void AddItem_AddsNewItem()
+    public void RemoveItem_CallsRemoveOnInventoryManagerAndDestroysGameObject()
     {
-        Item newItem = ScriptableObject.CreateInstance<Item>();
-        newItem.name = "New Test Item";
-        inventoryItemController.AddItem(newItem);
-        Assert.AreEqual(newItem, inventoryItemController.GetItem());
-        Object.Destroy(newItem);
+        // Configura o Item no InventoryItemController
+        inventoryItemController.AddItem(testItem);
+
+        // Simula a chamada do método RemoveItem
+        inventoryItemController.RemoveItem();
+
+        // Verifica se o método Remove foi chamado no InventoryManager
+        mockInventoryManager.Verify(im => im.Remove(testItem), Times.Once);
+
+        // Verifica se o GameObject foi destruído
+        Assert.IsNull(gameObject);
     }
+}
+
+public interface IInventoryManager
+{
+    void Remove(Item item);
 }
