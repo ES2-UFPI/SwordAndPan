@@ -157,6 +157,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7557716017465350629}
   - component: {fileID: 7291310326504735811}
+  - component: {fileID: 4792642550321471500}
   m_Layer: 0
   m_Name: Langsat
   m_TagString: Untagged
@@ -172,10 +173,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1171626826437726109}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.9799199, z: -0, w: -0.19939145}
+  m_LocalRotation: {x: 0, y: 0.97991955, z: -0, w: -0.19939348}
   m_LocalPosition: {x: -0, y: 0, z: 1.49}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 856884866267859165}
   - {fileID: 6419276353273598528}
@@ -202,6 +203,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4792642550321471500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171626826437726109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3014f10d428d0c44af3b0c6772bee19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionRange: 6
+  dialogBoxPrefab: {fileID: 6754855554093657555, guid: 26233e6371b895a4b8611955ea8efc86, type: 3}
 --- !u!1 &1186951111074374544
 GameObject:
   m_ObjectHideFlags: 0
