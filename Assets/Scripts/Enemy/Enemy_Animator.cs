@@ -22,14 +22,14 @@ public class Enemy_Animator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animator.SetBool(IS_WALKING, enemy.GetIsWalking());
+        animator.SetBool(IS_WALKING, enemy.IsWalking);
         Attack();
         Damaged();
     }
 
     private void Attack()
     {
-        if (enemy.IsAttacking())
+        if (enemy.IsAttacking)
         {
             animator.SetTrigger(IS_ATTACKING);
         }
@@ -37,7 +37,7 @@ public class Enemy_Animator : MonoBehaviour
 
     private void Damaged()
     {
-        if (enemy.IsDamaged())
+        if (enemy.IsDamaged)
         {
             animator.SetTrigger(IS_DAMAGED);
         }
