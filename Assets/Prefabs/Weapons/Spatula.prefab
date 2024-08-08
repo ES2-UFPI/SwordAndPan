@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3053893920794839832}
   m_Layer: 0
   m_Name: Spatula
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52,7 +52,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -72,7 +72,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Spatula
   weaponModel: {fileID: 2821507276382462305}
-  damageWeapon: 0
+  damageWeapon: 5
   spatulaParticle: {fileID: 3132495514439208371}
   gameInput: {fileID: 0}
   attackAudioSource: {fileID: 3053893920794839832}
@@ -88,6 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3296bdd31cfe2c4c93808a38ff425d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  delayTime: 1
   weaponCollider: {fileID: 7048404462827244360}
 --- !u!82 &3053893920794839832
 AudioSource:

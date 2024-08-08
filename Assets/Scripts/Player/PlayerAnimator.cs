@@ -3,19 +3,19 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class PlayerAnimator : MonoBehaviour
 {
 	[SerializeField] private Player player; // Referência ao jogador
 	[SerializeField] private GameInput gameInput; // Referência à entrada do jogo
 
-	private const string IS_WALKING = "IsWalking"; // Nome do parâmetro de animação de caminhar
-	private const string IS_ATTACKING = "IsAttacking"; // Nome do parâmetro de animação de ataque
-	private const string IS_ROLLING = "IsRolling"; // Nome do parâmetro de animação de rolamento
-	private const string IS_DAMAGE = "IsDamage"; // Nome do parâmetro de animação de rolamento
+	private static readonly int IsWalking = Animator.StringToHash("IsWalking"); // Nome do parâmetro de animação de caminhar
+	private static readonly int IsAttacking = Animator.StringToHash("IsAttacking"); // Nome do parâmetro de animação de ataque
+	private static readonly int IsRolling = Animator.StringToHash("IsRolling"); // Nome do parâmetro de animação de rolamento
+	private static readonly int IsDamage = Animator.StringToHash("IsDamage"); // Nome do parâmetro de animação de dano
 
 	private Animator animator; // Referência ao componente Animator
-	private PlayerStatus playerStatus;
-	private AudioSource footSound;
+	private PlayerStatus playerStatus; // Referência ao componente PlayerStatus
 
 	private void Awake()
 	{
@@ -25,45 +25,64 @@ public class PlayerAnimator : MonoBehaviour
 
 	private void Start()
 	{
+		RegisterEventHandlers();
+	}
+
+	private void RegisterEventHandlers()
+	{
 		gameInput.OnFireAction += OnFire; // Subscreve ao evento de ataque
 		gameInput.OnRollAction += OnRoll; // Subscreve ao evento de rolamento
 	}
 
 	private void OnFire(object sender, EventArgs e)
 	{
-		animator.SetBool(IS_ATTACKING, true); // Ativa a animação de ataque
-		StartCoroutine(ResetAttack());
+		TriggerAnimation(IsAttacking, ResetAttack, 0.5f);
 	}
 
 	private void OnRoll(object sender, EventArgs e)
 	{
-		animator.SetBool(IS_ROLLING, true); // Ativa a animação de rolamento
-		StartCoroutine(ResetRoll());
+		TriggerAnimation(IsRolling, ResetRoll, 0.2f);
 	}
 
-	private IEnumerator ResetAttack()
+	private void TriggerAnimation(int parameter, Action resetAction, float delay)
 	{
-		yield return new WaitForSeconds(0.5f); // Tempo de duração do ataque
-		animator.SetBool(IS_ATTACKING, false); // Desativa a animação de ataque
+		animator.SetBool(parameter, true); // Ativa a animação
+		StartCoroutine(ResetAnimation(parameter, resetAction, delay));
 	}
 
-	private IEnumerator ResetRoll()
+	private IEnumerator ResetAnimation(int parameter, Action resetAction, float delay)
 	{
-		yield return new WaitForSeconds(0.2f); // Tempo de duração do rolamento
-		animator.SetBool(IS_ROLLING, false); // Desativa a animação de rolamento
+		yield return new WaitForSeconds(delay); // Tempo de duração da animação
+		animator.SetBool(parameter, false); // Desativa a animação
+		resetAction?.Invoke();
+	}
+
+	private void ResetAttack()
+	{
+		// Outras lógicas relacionadas ao reset de ataque podem ser adicionadas aqui.
+	}
+
+	private void ResetRoll()
+	{
+		// Outras lógicas relacionadas ao reset de rolamento podem ser adicionadas aqui.
 	}
 
 	private void Update()
 	{
-		animator.SetBool(IS_WALKING, player.IsWalking()); // Atualiza a animação de caminhar
-		GetDamage();
+		UpdateWalkingAnimation();
+		CheckForDamage();
 	}
 
-	private void GetDamage()
+	private void UpdateWalkingAnimation()
+	{
+		animator.SetBool(IsWalking, player.IsWalking());
+	}
+
+	private void CheckForDamage()
 	{
 		if (playerStatus.GetIsDamaged())
 		{
-			animator.SetTrigger(IS_DAMAGE);
+			animator.SetTrigger(IsDamage);
 		}
 	}
 }

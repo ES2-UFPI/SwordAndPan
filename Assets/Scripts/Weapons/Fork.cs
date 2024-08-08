@@ -48,7 +48,6 @@ public class Fork : Weapon
         if (forkParticle != null)
         {
             forkParticle.Play();
-            Debug.Log("Ativou o efeito: Fork");
         }
         else
         {
